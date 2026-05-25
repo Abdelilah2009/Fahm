@@ -30,6 +30,7 @@ import ArabicDetail from "./pages/ArabicDetail";
 import ArabicMafahim from "./pages/ArabicMafahim";
 import ArabicQuizzes from "./pages/ArabicQuizzes";
 import ArabicQuizPlay from "./pages/ArabicQuizPlay";
+import ExamMode from "./pages/ExamMode";
 import ComingSoon from "./pages/ComingSoon";
 
 export default function App() {
@@ -72,6 +73,9 @@ export default function App() {
           <Route path="quiz" element={<IslamiyatQuizzes />} />
           <Route path="quiz/:id" element={<IslamiyatQuizPlay />} />
         </Route>
+
+        {/* Exam mode */}
+        <Route path="/exam" element={<ExamMode />} />
 
         {/* Arabic section */}
         <Route path="/arabic" element={<ArabicLayout />}>

@@ -129,6 +129,20 @@ export default function Landing() {
           )}
         </div>
 
+        {/* Exam Mode CTA */}
+        <Link
+          to="/exam"
+          className="mt-8 w-full block p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-neutral-700 no-underline hover:border-gray-400 dark:hover:border-neutral-600 transition-colors text-center"
+        >
+          <span className="text-3xl block mb-2">📝</span>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
+            وضع الامتحان — Mode Examen
+          </h3>
+          <p className="text-sm text-gray-500 dark:text-neutral-400">
+            Simule un examen complet — حاكي الامتحان الجهوي
+          </p>
+        </Link>
+
         {/* Footer */}
         <div className="mt-12 text-xs text-gray-400 dark:text-neutral-600 flex items-center gap-1">
           <span>Developed by</span>

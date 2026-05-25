@@ -119,7 +119,7 @@ export default function Flashcards() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
       <Link
-        to="/"
+        to="/francais"
         className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-neutral-400 no-underline hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8"
       >
         <ArrowLeft size={14} />

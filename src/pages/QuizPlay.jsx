@@ -51,7 +51,7 @@ export default function QuizPlay() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
         <p className="text-gray-500 dark:text-neutral-400">Quiz introuvable.</p>
         <Link
-          to="/quizzes"
+          to="/francais/quizzes"
           className="text-sm text-gray-900 dark:text-gray-100 underline mt-2 inline-block"
         >
           Retour aux quiz
@@ -103,7 +103,7 @@ export default function QuizPlay() {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
         <Link
-          to="/quizzes"
+          to="/francais/quizzes"
           className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-neutral-400 no-underline hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8"
         >
           <ArrowLeft size={14} />
@@ -212,7 +212,7 @@ export default function QuizPlay() {
               Réessayer
             </button>
             <Link
-              to="/quizzes"
+              to="/francais/quizzes"
               className="inline-flex items-center gap-2 bg-white dark:bg-neutral-900 text-gray-700 dark:text-neutral-300 border border-gray-200 dark:border-neutral-700 px-5 py-2.5 rounded-lg text-sm font-medium no-underline hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
             >
               Autres quiz
@@ -228,7 +228,7 @@ export default function QuizPlay() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
       <Link
-        to="/quizzes"
+        to="/francais/quizzes"
         className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-neutral-400 no-underline hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8"
       >
         <ArrowLeft size={14} />

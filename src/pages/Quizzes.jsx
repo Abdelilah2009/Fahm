@@ -16,7 +16,7 @@ export default function Quizzes() {
 
       {/* Random Quiz Card */}
       <Link
-        to="/quizzes/random"
+        to="/francais/quizzes/random"
         className="group flex items-center gap-5 p-6 rounded-xl border-2 border-dashed border-gray-300 dark:border-neutral-700 no-underline hover:border-gray-400 dark:hover:border-neutral-600 transition-colors mb-6"
       >
         <span className="text-4xl">🎲</span>
@@ -38,7 +38,7 @@ export default function Quizzes() {
         {quizzes.map((quiz) => (
           <Link
             key={quiz.id}
-            to={`/quizzes/${quiz.id}`}
+            to={`/francais/quizzes/${quiz.id}`}
             className="group p-6 rounded-xl border border-gray-200 dark:border-neutral-800 no-underline hover:border-gray-300 dark:hover:border-neutral-700 transition-colors"
           >
             <div className="flex items-center justify-between mb-3">

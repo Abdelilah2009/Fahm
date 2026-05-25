@@ -17,7 +17,7 @@ function buildIndex() {
       title: o.title,
       subtitle: `${o.author} — ${o.genre}`,
       text: o.description,
-      link: `/oeuvres/${o.id}`,
+      link: `/francais/oeuvres/${o.id}`,
     });
     o.personnages.forEach((p) => {
       items.push({
@@ -26,7 +26,7 @@ function buildIndex() {
         title: p.nom,
         subtitle: `${p.role} — ${o.title}`,
         text: p.description,
-        link: `/oeuvres/${o.id}`,
+        link: `/francais/oeuvres/${o.id}`,
       });
     });
     o.themes.forEach((t) => {
@@ -36,7 +36,7 @@ function buildIndex() {
         title: t.titre,
         subtitle: o.title,
         text: t.explication,
-        link: `/oeuvres/${o.id}`,
+        link: `/francais/oeuvres/${o.id}`,
       });
     });
     o.citations.forEach((c) => {
@@ -46,7 +46,7 @@ function buildIndex() {
         title: `"${c.texte}"`,
         subtitle: `${o.title} — ${o.author}`,
         text: c.contexte,
-        link: `/oeuvres/${o.id}`,
+        link: `/francais/oeuvres/${o.id}`,
       });
     });
   });
@@ -59,7 +59,7 @@ function buildIndex() {
       title: l.title,
       subtitle: l.category,
       text: l.description,
-      link: `/lessons/${l.id}`,
+      link: `/francais/lessons/${l.id}`,
     });
     l.content.forEach((c) => {
       items.push({
@@ -68,7 +68,7 @@ function buildIndex() {
         title: c.titre,
         subtitle: l.title,
         text: `${c.definition} — ${c.exemple}`,
-        link: `/lessons/${l.id}`,
+        link: `/francais/lessons/${l.id}`,
       });
     });
   });
@@ -81,7 +81,7 @@ function buildIndex() {
       title: q.title,
       subtitle: `${q.questions.length} questions`,
       text: q.questions.map((qu) => qu.question).join(" "),
-      link: `/quizzes/${q.id}`,
+      link: `/francais/quizzes/${q.id}`,
     });
   });
 
@@ -94,7 +94,7 @@ function buildIndex() {
         title: m.mot,
         subtitle: `${v.title} — ${m.usage}`,
         text: `${m.exemple} ${m.traduction}`,
-        link: "/vocabulaire",
+        link: "/francais/vocabulaire",
       });
     });
   });
@@ -122,7 +122,7 @@ export default function Search() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
       <Link
-        to="/"
+        to="/francais"
         className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-neutral-400 no-underline hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8"
       >
         <ArrowLeft size={14} />

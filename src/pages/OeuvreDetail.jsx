@@ -20,7 +20,7 @@ export default function OeuvreDetail() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
         <p className="text-gray-500 dark:text-neutral-400">Oeuvre introuvable.</p>
         <Link
-          to="/oeuvres"
+          to="/francais/oeuvres"
           className="text-sm text-gray-900 dark:text-gray-100 underline mt-2 inline-block"
         >
           Retour aux oeuvres
@@ -32,7 +32,7 @@ export default function OeuvreDetail() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
       <Link
-        to="/oeuvres"
+        to="/francais/oeuvres"
         className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-neutral-400 no-underline hover:text-gray-900 dark:hover:text-gray-100 transition-colors mb-8"
       >
         <ArrowLeft size={14} />

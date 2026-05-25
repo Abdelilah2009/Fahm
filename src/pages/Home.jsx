@@ -22,42 +22,42 @@ const features = [
     icon: BookOpen,
     title: "Les Oeuvres",
     desc: "Résumés, personnages, thèmes et citations des 3 oeuvres au programme.",
-    link: "/oeuvres",
+    link: "/francais/oeuvres",
     tag: "3 oeuvres",
   },
   {
     icon: FileText,
     title: "Les Cours",
     desc: "Figures de style, conjugaison, production écrite, types de texte et analyse.",
-    link: "/lessons",
+    link: "/francais/lessons",
     tag: `${lessons.length} leçons`,
   },
   {
     icon: HelpCircle,
     title: "Les Quiz",
     desc: "QCM interactifs avec chrono, explications et quiz aléatoire.",
-    link: "/quizzes",
+    link: "/francais/quizzes",
     tag: `${quizzes.length} quiz`,
   },
   {
     icon: Layers,
     title: "Flashcards",
     desc: "Cartes interactives pour mémoriser citations, personnages, thèmes et conjugaison.",
-    link: "/flashcards",
+    link: "/francais/flashcards",
     tag: "100+ cartes",
   },
   {
     icon: Type,
     title: "Vocabulaire",
     desc: "Connecteurs, expressions d'opinion, argumentation et formules pour la production écrite.",
-    link: "/vocabulaire",
+    link: "/francais/vocabulaire",
     tag: "6 catégories",
   },
   {
     icon: Search,
     title: "Recherche",
     desc: "Trouve n'importe quelle info dans les oeuvres, cours, quiz et vocabulaire.",
-    link: "/search",
+    link: "/francais/search",
     tag: "Globale",
   },
 ];
@@ -113,14 +113,14 @@ export default function Home() {
           </p>
           <div className="mt-8 flex gap-3">
             <Link
-              to="/oeuvres"
+              to="/francais/oeuvres"
               className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-neutral-900 px-5 py-2.5 rounded-lg text-sm font-medium no-underline hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
             >
               Commencer
               <ArrowRight size={16} />
             </Link>
             <Link
-              to="/quizzes"
+              to="/francais/quizzes"
               className="inline-flex items-center gap-2 bg-white dark:bg-neutral-900 text-gray-700 dark:text-neutral-300 border border-gray-200 dark:border-neutral-700 px-5 py-2.5 rounded-lg text-sm font-medium no-underline hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
             >
               Passer un quiz
@@ -205,7 +205,7 @@ export default function Home() {
           {oeuvres.map((oeuvre) => (
             <Link
               key={oeuvre.id}
-              to={`/oeuvres/${oeuvre.id}`}
+              to={`/francais/oeuvres/${oeuvre.id}`}
               className="group block p-6 rounded-xl border border-gray-200 dark:border-neutral-800 no-underline hover:border-gray-300 dark:hover:border-neutral-700 transition-colors"
             >
               <span className="text-3xl mb-3 block">{oeuvre.image}</span>
@@ -338,7 +338,7 @@ export default function Home() {
             figures de style, la conjugaison et les types de texte.
           </p>
           <Link
-            to="/quizzes/random"
+            to="/francais/quizzes/random"
             className="inline-flex items-center gap-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-neutral-900 px-6 py-3 rounded-lg text-sm font-medium no-underline hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
           >
             Quiz aléatoire

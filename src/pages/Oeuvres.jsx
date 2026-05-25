@@ -18,7 +18,7 @@ export default function Oeuvres() {
         {oeuvres.map((oeuvre) => (
           <Link
             key={oeuvre.id}
-            to={`/oeuvres/${oeuvre.id}`}
+            to={`/francais/oeuvres/${oeuvre.id}`}
             className="group flex items-start gap-5 p-6 rounded-xl border border-gray-200 dark:border-neutral-800 no-underline hover:border-gray-300 dark:hover:border-neutral-700 transition-colors"
           >
             <div className="text-4xl shrink-0">{oeuvre.image}</div>

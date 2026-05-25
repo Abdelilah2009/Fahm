@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Fahm** is a French study platform for Moroccan 1ère Bac students preparing for their regional exam. It covers literary works (oeuvres), grammar/writing lessons, and interactive quizzes. The UI is intentionally clean and minimal (Shopify-inspired) — no gradients, no heavy shadows. The user communicates in Darija (Moroccan Arabic).
+**Fahm** is a study platform for Moroccan 1ère Bac students preparing for their regional exam. It covers French (literary works, grammar/writing lessons, quizzes) and Ijtima3iyat (History and Geography in Arabic). The UI is intentionally clean and minimal (Shopify-inspired) — no gradients, no heavy shadows. The user communicates in Darija (Moroccan Arabic).
 
 ## Commands
 
@@ -21,13 +21,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 All routes are flat in App.jsx with a shared Navbar. Dark mode state lives in App and is passed to Navbar as props.
 
-- `/` → Home (landing with 6 feature cards)
+- `/` → Home (landing with feature cards, stats, oeuvres showcase, exam tips, study guide, CTA)
 - `/oeuvres` and `/oeuvres/:id` → Literary works listing and detail (tabbed: personnages, thèmes, citations, chapitres)
 - `/lessons` and `/lessons/:id` → Lessons listing and detail
+- `/ijtimaaiyat` and `/ijtimaaiyat/:id` → Ijtima3iyat (History + Geography) listing with tabs and detail pages. Arabic RTL content.
 - `/quizzes` and `/quizzes/:id` → Quiz listing and interactive quiz player (with optional timer mode)
 - `/quizzes/random` → Random quiz (15 questions shuffled from all categories, generated dynamically via `generateRandomQuiz()`)
-- `/flashcards` → Flip cards for citations, personnages, figures de style, thèmes (generated from oeuvres + lessons data via `src/data/flashcards.js`)
-- `/search` → Global search across all data (builds a flat index from oeuvres, lessons, quizzes, vocabulaire)
+- `/flashcards` → Flip cards with category + oeuvre filters (citations, personnages, thèmes, figures de style, conjugaison, vocabulaire)
+- `/search` → Global search across all data (builds a flat index from oeuvres, lessons, quizzes, vocabulaire, ijtimaaiyat)
 - `/vocabulaire` → Useful expressions for production écrite with Arabic translations
 
 ### Data Layer (src/data/)
@@ -35,10 +36,11 @@ All routes are flat in App.jsx with a shared Navbar. Dark mode state lives in Ap
 All content is static JS — no backend. Each data file exports an array and a getter function (e.g. `getOeuvre(id)`).
 
 - **oeuvres.js** — 3 works: La Boîte à Merveilles, Le Dernier Jour d'un Condamné, Antigone. Each has `personnages[]`, `themes[]`, `citations[]`, `chapitres[]`.
-- **lessons.js** — 4 lessons (figures de style, conjugaison, production écrite, types de texte). Each has `content[]` with `{titre, definition, exemple, astuce}`.
-- **quizzes.js** — 4 quizzes with `questions[]` containing `{question, options[], correct (index), explication}`. Also exports `generateRandomQuiz()` which shuffles 15 questions from all quizzes. The `getQuiz("random")` call triggers generation.
-- **vocabulaire.js** — 5 categories of useful French expressions (connecteurs, opinion, introduction, conclusion, sentiments). Each entry has `{mot, traduction (Arabic), usage, exemple}`.
-- **flashcards.js** — Not static data; `generateFlashcards()` builds cards dynamically from oeuvres (citations, personnages, themes) and lessons (figures de style).
+- **lessons.js** — 6 lessons (figures de style, conjugaison, production écrite, types de texte, analyse de texte). Each has `content[]` with `{titre, definition, exemple, astuce}`.
+- **quizzes.js** — 8 quizzes (3 oeuvres + figures de style + conjugaison + types de texte + tarikh + joghrafia) with `questions[]` containing `{question, options[], correct (index), explication}`. Also exports `generateRandomQuiz()`.
+- **vocabulaire.js** — 6 categories of useful French expressions. Each entry has `{mot, traduction (Arabic), usage, exemple}`.
+- **ijtimaaiyat.js** — History (tarikh, 8 lessons) and Geography (joghrafia, 4 lessons) for 1ère Bac. Each has `content[]` with `{titre, definition, exemple, astuce}`. Arabic RTL text. Exports `getTarikhLesson()`, `getJoghrafiaLesson()`, `getIjtimaaiyatLesson()`.
+- **flashcards.js** — Not static data; `generateFlashcards()` builds cards dynamically from oeuvres, lessons, and vocabulaire. Also exports `getFlashcardOeuvres()` for oeuvre-based filtering.
 
 ### Quiz Timer (QuizPlay.jsx)
 

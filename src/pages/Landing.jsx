@@ -130,9 +130,17 @@ export default function Landing() {
         </div>
 
         {/* Footer */}
-        <p className="text-xs text-gray-300 dark:text-neutral-700 mt-12">
-          Fahm — 1ère Bac Maroc
-        </p>
+        <div className="mt-12 text-xs text-gray-400 dark:text-neutral-600 flex items-center gap-1">
+          <span>Developed by</span>
+          <a
+            href="https://www.instagram.com/abdelilah__ed/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-gray-500 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+          >
+            Abdelilah Eddalili
+          </a>
+        </div>
       </div>
     </div>
   );

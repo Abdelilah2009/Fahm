@@ -347,12 +347,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer note */}
-      <section className="pb-12 text-center">
-        <p className="text-xs text-gray-400 dark:text-neutral-600">
-          Fahm — Plateforme de révision pour le français, 1ère Bac Maroc.
-        </p>
-      </section>
+      {/* spacer */}
+      <div className="pb-4" />
     </div>
   );
 }

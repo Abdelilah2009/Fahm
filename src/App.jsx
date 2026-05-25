@@ -24,6 +24,12 @@ import IslamiyatDetail from "./pages/IslamiyatDetail";
 import IslamiyatMafahim from "./pages/IslamiyatMafahim";
 import IslamiyatQuizzes from "./pages/IslamiyatQuizzes";
 import IslamiyatQuizPlay from "./pages/IslamiyatQuizPlay";
+import ArabicLayout from "./components/ArabicLayout";
+import ArabicHome from "./pages/ArabicHome";
+import ArabicDetail from "./pages/ArabicDetail";
+import ArabicMafahim from "./pages/ArabicMafahim";
+import ArabicQuizzes from "./pages/ArabicQuizzes";
+import ArabicQuizPlay from "./pages/ArabicQuizPlay";
 import ComingSoon from "./pages/ComingSoon";
 
 export default function App() {
@@ -67,8 +73,14 @@ export default function App() {
           <Route path="quiz/:id" element={<IslamiyatQuizPlay />} />
         </Route>
 
-        {/* Coming soon */}
-        <Route path="/arabic" element={<ComingSoon subject="اللغة العربية" emoji="✍️" />} />
+        {/* Arabic section */}
+        <Route path="/arabic" element={<ArabicLayout />}>
+          <Route index element={<ArabicHome />} />
+          <Route path=":id" element={<ArabicDetail />} />
+          <Route path="mafahim" element={<ArabicMafahim />} />
+          <Route path="quiz" element={<ArabicQuizzes />} />
+          <Route path="quiz/:id" element={<ArabicQuizPlay />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

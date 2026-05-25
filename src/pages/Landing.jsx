@@ -35,9 +35,9 @@ const subjects = [
     title: "اللغة العربية",
     titleFr: "Arabe",
     emoji: "✍️",
-    desc: "قريباً — Bientôt disponible",
+    desc: "النحو والصرف، البلاغة، التعبير والإنشاء واختبارات",
     link: "/arabic",
-    available: false,
+    available: true,
   },
 ];
 

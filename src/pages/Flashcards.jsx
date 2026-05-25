@@ -6,26 +6,38 @@ import {
   ChevronRight,
   RotateCcw,
   Shuffle,
+  Filter,
 } from "lucide-react";
-import { generateFlashcards, flashcardCategories } from "../data/flashcards";
+import {
+  generateFlashcards,
+  flashcardCategories,
+  getFlashcardOeuvres,
+} from "../data/flashcards";
 
 export default function Flashcards() {
   const allCards = useMemo(() => generateFlashcards(), []);
+  const oeuvreOptions = useMemo(() => getFlashcardOeuvres(), []);
   const [category, setCategory] = useState("Tout");
+  const [oeuvreFilter, setOeuvreFilter] = useState("Tout");
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [shuffled, setShuffled] = useState(false);
 
   const filtered = useMemo(() => {
-    let cards =
-      category === "Tout"
-        ? [...allCards]
-        : allCards.filter((c) => c.category === category);
+    let cards = [...allCards];
+    if (category !== "Tout") {
+      cards = cards.filter((c) => c.category === category);
+    }
+    if (oeuvreFilter !== "Tout") {
+      cards = cards.filter(
+        (c) => c.oeuvre === oeuvreFilter || c.oeuvre === null
+      );
+    }
     if (shuffled) {
       cards = [...cards].sort(() => Math.random() - 0.5);
     }
     return cards;
-  }, [allCards, category, shuffled]);
+  }, [allCards, category, oeuvreFilter, shuffled]);
 
   const card = filtered[index];
   const total = filtered.length;
@@ -57,24 +69,49 @@ export default function Flashcards() {
     setFlipped(false);
   };
 
+  const handleOeuvreChange = (o) => {
+    setOeuvreFilter(o);
+    setIndex(0);
+    setFlipped(false);
+  };
+
   const colorMap = {
     blue: "border-blue-200 dark:border-blue-900",
     green: "border-emerald-200 dark:border-emerald-900",
     purple: "border-purple-200 dark:border-purple-900",
     amber: "border-amber-200 dark:border-amber-900",
+    rose: "border-rose-200 dark:border-rose-900",
+    teal: "border-teal-200 dark:border-teal-900",
   };
 
   const categoryColor = {
     blue: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40",
-    green: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40",
-    purple: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40",
-    amber: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40",
+    green:
+      "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40",
+    purple:
+      "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40",
+    amber:
+      "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40",
+    rose: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40",
+    teal: "text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/40",
   };
 
   if (!card) {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12 text-center">
-        <p className="text-gray-500 dark:text-neutral-400">Aucune carte trouvée.</p>
+        <p className="text-gray-500 dark:text-neutral-400">
+          Aucune carte trouvée.
+        </p>
+        <button
+          onClick={() => {
+            setCategory("Tout");
+            setOeuvreFilter("Tout");
+            setIndex(0);
+          }}
+          className="mt-4 px-4 py-2 rounded-lg bg-gray-900 dark:bg-gray-100 text-white dark:text-neutral-900 text-sm font-medium cursor-pointer border-0"
+        >
+          Réinitialiser les filtres
+        </button>
       </div>
     );
   }
@@ -98,7 +135,8 @@ export default function Flashcards() {
         </p>
       </div>
 
-      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+      {/* Category filter */}
+      <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
         {flashcardCategories.map((cat) => (
           <button
             key={cat}
@@ -110,6 +148,37 @@ export default function Flashcards() {
             }`}
           >
             {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Oeuvre filter */}
+      <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
+        <Filter
+          size={14}
+          className="text-gray-400 dark:text-neutral-500 shrink-0"
+        />
+        <button
+          onClick={() => handleOeuvreChange("Tout")}
+          className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap cursor-pointer border-0 transition-colors ${
+            oeuvreFilter === "Tout"
+              ? "bg-gray-700 dark:bg-gray-300 text-white dark:text-neutral-900"
+              : "bg-gray-50 dark:bg-neutral-800/60 text-gray-500 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-neutral-700"
+          }`}
+        >
+          Toutes les oeuvres
+        </button>
+        {oeuvreOptions.map((o) => (
+          <button
+            key={o}
+            onClick={() => handleOeuvreChange(o)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap cursor-pointer border-0 transition-colors ${
+              oeuvreFilter === o
+                ? "bg-gray-700 dark:bg-gray-300 text-white dark:text-neutral-900"
+                : "bg-gray-50 dark:bg-neutral-800/60 text-gray-500 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-neutral-700"
+            }`}
+          >
+            {o}
           </button>
         ))}
       </div>
@@ -150,7 +219,7 @@ export default function Flashcards() {
           style={{
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-            minHeight: "260px",
+            minHeight: "280px",
           }}
         >
           {/* Front */}

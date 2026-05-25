@@ -26,9 +26,9 @@ const subjects = [
     title: "التربية الإسلامية",
     titleFr: "Éducation islamique",
     emoji: "🕌",
-    desc: "قريباً — Bientôt disponible",
+    desc: "العقيدة، السيرة، فقه الأسرة، حقوق الإنسان واختبارات",
     link: "/islamiyat",
-    available: false,
+    available: true,
   },
   {
     id: "arabic",

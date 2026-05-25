@@ -2,16 +2,18 @@ import { Link, useLocation } from "react-router-dom";
 import {
   Home,
   BookOpen,
-  MapPin,
   HelpCircle,
   Moon,
   Sun,
   ArrowLeft,
+  Calendar,
 } from "lucide-react";
 import { useDarkMode } from "../hooks/useDarkMode";
 
 const navItems = [
   { path: "/ijtimaaiyat", label: "الرئيسية", icon: Home, exact: true },
+  { path: "/ijtimaaiyat/mafahim", label: "المفاهيم", icon: BookOpen },
+  { path: "/ijtimaaiyat/tawariikh", label: "التواريخ", icon: Calendar },
   { path: "/ijtimaaiyat/quiz", label: "اختبارات", icon: HelpCircle },
 ];
 

@@ -16,6 +16,8 @@ import IjtimaaiyatHome from "./pages/IjtimaaiyatHome";
 import IjtimaaiyatDetail from "./pages/IjtimaaiyatDetail";
 import IjtimaaiyatQuizzes from "./pages/IjtimaaiyatQuizzes";
 import IjtimaaiyatQuizPlay from "./pages/IjtimaaiyatQuizPlay";
+import Mafahim from "./pages/Mafahim";
+import Tawariikh from "./pages/Tawariikh";
 import ComingSoon from "./pages/ComingSoon";
 
 export default function App() {
@@ -42,7 +44,10 @@ export default function App() {
         {/* Ijtimaaiyat section */}
         <Route path="/ijtimaaiyat" element={<IjtimaaiyatLayout />}>
           <Route index element={<IjtimaaiyatHome />} />
-          <Route path=":id" element={<IjtimaaiyatDetail />} />
+          <Route path="tarikh/:id" element={<IjtimaaiyatDetail />} />
+          <Route path="joghrafia/:id" element={<IjtimaaiyatDetail />} />
+          <Route path="mafahim" element={<Mafahim />} />
+          <Route path="tawariikh" element={<Tawariikh />} />
           <Route path="quiz" element={<IjtimaaiyatQuizzes />} />
           <Route path="quiz/:id" element={<IjtimaaiyatQuizPlay />} />
         </Route>

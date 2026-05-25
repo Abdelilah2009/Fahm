@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft as ArrowIcon } from "lucide-react";
 import { tarikh, joghrafia } from "../data/ijtimaaiyat";
 import { ijtimaaiyatQuizzes } from "../data/ijtimaaiyatQuizzes";
 
@@ -22,7 +21,7 @@ export default function IjtimaaiyatHome() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-10">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
         <div className="p-4 rounded-xl border border-gray-200 dark:border-neutral-800 text-center">
           <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
             {tarikh.length}
@@ -41,6 +40,40 @@ export default function IjtimaaiyatHome() {
           </p>
           <p className="text-xs text-gray-500 dark:text-neutral-400">سؤال اختبار</p>
         </div>
+        <div className="p-4 rounded-xl border border-gray-200 dark:border-neutral-800 text-center">
+          <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            {tarikh.length + joghrafia.length}
+          </p>
+          <p className="text-xs text-gray-500 dark:text-neutral-400">درس إجمالي</p>
+        </div>
+      </div>
+
+      {/* Quick links */}
+      <div className="grid sm:grid-cols-3 gap-3 mb-10">
+        <Link
+          to="/ijtimaaiyat/mafahim"
+          className="p-5 rounded-xl border border-gray-200 dark:border-neutral-800 no-underline hover:border-gray-300 dark:hover:border-neutral-700 transition-colors text-center"
+        >
+          <span className="text-2xl block mb-2">📖</span>
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">المفاهيم الأساسية</h3>
+          <p className="text-xs text-gray-400 dark:text-neutral-500 mt-1">المصطلحات المهمة</p>
+        </Link>
+        <Link
+          to="/ijtimaaiyat/tawariikh"
+          className="p-5 rounded-xl border border-gray-200 dark:border-neutral-800 no-underline hover:border-gray-300 dark:hover:border-neutral-700 transition-colors text-center"
+        >
+          <span className="text-2xl block mb-2">📅</span>
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">التواريخ المهمة</h3>
+          <p className="text-xs text-gray-400 dark:text-neutral-500 mt-1">الأحداث الأساسية</p>
+        </Link>
+        <Link
+          to="/ijtimaaiyat/quiz"
+          className="p-5 rounded-xl border border-gray-200 dark:border-neutral-800 no-underline hover:border-gray-300 dark:hover:border-neutral-700 transition-colors text-center"
+        >
+          <span className="text-2xl block mb-2">📝</span>
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">الاختبارات</h3>
+          <p className="text-xs text-gray-400 dark:text-neutral-500 mt-1">{totalQuestions} سؤال</p>
+        </Link>
       </div>
 
       {/* التاريخ */}
@@ -52,7 +85,7 @@ export default function IjtimaaiyatHome() {
           {tarikh.map((lesson) => (
             <Link
               key={lesson.id}
-              to={`/ijtimaaiyat/${lesson.id}`}
+              to={`/ijtimaaiyat/tarikh/${lesson.id}`}
               className="group p-5 rounded-xl border border-gray-200 dark:border-neutral-800 no-underline hover:border-gray-300 dark:hover:border-neutral-700 transition-colors"
             >
               <div className="flex items-center gap-3 mb-2">
@@ -62,7 +95,7 @@ export default function IjtimaaiyatHome() {
                 </h3>
               </div>
               <p className="text-xs text-gray-400 dark:text-neutral-500">
-                {lesson.titleFr}
+                {lesson.titleFr} — {lesson.content.length} محاور
               </p>
             </Link>
           ))}
@@ -78,7 +111,7 @@ export default function IjtimaaiyatHome() {
           {joghrafia.map((lesson) => (
             <Link
               key={lesson.id}
-              to={`/ijtimaaiyat/${lesson.id}`}
+              to={`/ijtimaaiyat/joghrafia/${lesson.id}`}
               className="group p-5 rounded-xl border border-gray-200 dark:border-neutral-800 no-underline hover:border-gray-300 dark:hover:border-neutral-700 transition-colors"
             >
               <div className="flex items-center gap-3 mb-2">
@@ -88,26 +121,12 @@ export default function IjtimaaiyatHome() {
                 </h3>
               </div>
               <p className="text-xs text-gray-400 dark:text-neutral-500">
-                {lesson.titleFr}
+                {lesson.titleFr} — {lesson.content.length} محاور
               </p>
             </Link>
           ))}
         </div>
       </div>
-
-      {/* Quiz CTA */}
-      <Link
-        to="/ijtimaaiyat/quiz"
-        className="block p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-neutral-700 no-underline hover:border-gray-400 dark:hover:border-neutral-600 transition-colors text-center"
-      >
-        <span className="text-3xl block mb-2">📝</span>
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
-          اختبارات الاجتماعيات
-        </h2>
-        <p className="text-sm text-gray-500 dark:text-neutral-400">
-          {totalQuestions} سؤال في التاريخ والجغرافيا
-        </p>
-      </Link>
     </div>
   );
 }

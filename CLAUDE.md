@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Fahm** is a study platform for Moroccan 1ère Bac students. It has two fully separate sub-apps — French (LTR) and Ijtima3iyat/Social Studies (RTL Arabic) — accessed from a shared landing page. Islamiyat and Arabic are planned as future subjects. The UI is clean and minimal (Shopify-inspired) — no gradients, no heavy shadows. The user communicates in Darija (Moroccan Arabic).
+**Fahm** is a study platform for Moroccan 1ère Bac students covering 4 subjects: French, Ijtima3iyat (History-Geography), Islamiyat (Islamic Education), and Arabic. Each subject is a self-contained RTL or LTR sub-app accessed from a bilingual landing page. There is also a cross-subject Exam Mode. The UI is clean and minimal (Shopify-inspired) — no gradients, no heavy shadows. The user communicates in Darija (Moroccan Arabic).
 
 ## Commands
 
@@ -19,55 +19,64 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Multi-Subject Routing (App.jsx)
 
-The app uses nested routes with layout wrappers. Each subject is a self-contained sub-app with its own navbar, layout direction, and language.
+The app uses nested routes with layout wrappers. Each subject has its own Layout component (navbar + footer + `<Outlet>`), direction (`dir`), and UI language.
 
 ```
 /                         → Landing (subject selector, bilingual)
 /francais/*               → FrancaisLayout (LTR, French Navbar + Footer)
 /ijtimaaiyat/*            → IjtimaaiyatLayout (RTL, Arabic Navbar + Footer)
-/islamiyat, /arabic       → ComingSoon placeholder
+/islamiyat/*              → IslamiyatLayout (RTL, Arabic Navbar + Footer)
+/arabic/*                 → ArabicLayout (RTL, Arabic Navbar + Footer)
+/exam                     → ExamMode (standalone, direction switches per subject)
 ```
 
-**French routes** (`/francais`):
-- `/francais` → Home (stats, features, oeuvres showcase, exam tips, study guide, quiz CTA)
-- `/francais/oeuvres` and `/francais/oeuvres/:id` → Literary works (tabbed: personnages, thèmes, citations, chapitres)
-- `/francais/lessons` and `/francais/lessons/:id` → Grammar/writing lessons
-- `/francais/quizzes` and `/francais/quizzes/:id` → Quiz listing and player (with optional 20s timer)
-- `/francais/quizzes/random` → Random quiz (15 shuffled questions via `generateRandomQuiz()`)
-- `/francais/flashcards` → Flip cards with category + oeuvre filtering
-- `/francais/search` → Full-text search across French content
-- `/francais/vocabulaire` → Expressions with Arabic translations
+**French routes** (`/francais`): Home, oeuvres/:id, lessons/:id, quizzes/:id (with random), flashcards, search, vocabulaire.
 
-**Ijtimaaiyat routes** (`/ijtimaaiyat`):
-- `/ijtimaaiyat` → Home (tarikh + joghrafia lesson grids, stats, quick links)
-- `/ijtimaaiyat/tarikh/:id` and `/ijtimaaiyat/joghrafia/:id` → Lesson detail
-- `/ijtimaaiyat/mafahim` → Key concepts (مفاهيم) with category tabs
-- `/ijtimaaiyat/tawariikh` → Important dates timeline
-- `/ijtimaaiyat/quiz` and `/ijtimaaiyat/quiz/:id` → Arabic quiz listing and player
+**Arabic-subject routes** (`/ijtimaaiyat`, `/islamiyat`, `/arabic`): Each has Home, :id (lesson detail), mafahim (concepts), quiz, quiz/:id. Ijtimaaiyat additionally has tawariikh (dates timeline) and uses `tarikh/:id` / `joghrafia/:id` instead of `:id`.
 
-### Layout Components
+**Exam Mode** (`/exam`): Standalone page with 4-step flow (subject select → config → exam → results). Generates QCM + open-ended questions from all data sources via `src/data/examQuestionGenerator.js`. UI language/direction switches dynamically based on selected subject.
 
-- **FrancaisLayout** — Wraps French routes. Uses `useDarkMode` hook, renders `Navbar` (receives dark/setDark as props) + `<Outlet>` + `Footer`.
-- **IjtimaaiyatLayout** — Wraps Arabic routes with `dir="rtl"`. Renders `IjtimaaiyatNavbar` (manages its own dark mode via hook) + `<Outlet>` + `Footer`.
-- **Footer** — Shared component with `dir="ltr"` (so it renders correctly in both LTR and RTL layouts).
-- **Landing** — Standalone page (no layout wrapper), has its own dark mode toggle.
+### Layout Components (src/components/)
+
+Each subject has: `[Subject]Layout.jsx` (wraps routes with `dir`, navbar, footer) and `[Subject]Navbar.jsx` (sticky nav with dark mode toggle, back-to-landing link).
+
+- **FrancaisLayout** — Uses `useDarkMode` hook, passes dark/setDark to Navbar as props.
+- **Ijtimaaiyat/Islamiyat/ArabicLayout** — Set `dir="rtl"`. Their navbars each manage dark mode internally via the hook.
+- **Footer** — Shared component. Always uses `dir="ltr"` so it renders correctly in RTL layouts.
+- **Landing** and **ExamMode** — Standalone pages (no layout wrapper), each has its own dark mode toggle.
 
 ### Data Layer (src/data/)
 
-All content is static JS — no backend. Each data file exports an array and getter functions.
+All content is static JS — no backend. Each data file exports an array and getter functions (e.g. `getOeuvre(id)`). Universal content structure for lessons: `{titre, definition, exemple, astuce}`. Universal quiz question format: `{question, options[], correct (0-indexed), explication}`.
 
-- **oeuvres.js** — 3 works (La Boîte à Merveilles, Le Dernier Jour d'un Condamné, Antigone). Each has `personnages[]`, `themes[]`, `citations[]`, `chapitres[]`.
-- **lessons.js** — 6 French lessons. Each has `content[]` with `{titre, definition, exemple, astuce}`.
-- **quizzes.js** — 6 French quizzes with `questions[]` of `{question, options[], correct (0-indexed), explication}`. Also exports `generateRandomQuiz()`.
-- **vocabulaire.js** — 6 categories. Each entry: `{mot, traduction, usage, exemple}`.
-- **ijtimaaiyat.js** — `tarikh` (8 history lessons) + `joghrafia` (6 geography lessons). Arabic content with same `{titre, definition, exemple, astuce}` structure.
-- **ijtimaaiyatQuizzes.js** — 2 Arabic quizzes (tarikh + joghrafia). Separate from French quizzes.
-- **mafahim.js** — `mafahim` (key concepts by category) + `tawariikh` (important dates by category). Arabic content.
-- **flashcards.js** — Dynamic: `generateFlashcards()` builds cards from oeuvres + lessons + vocabulaire. `getFlashcardOeuvres()` returns oeuvre names for filtering.
+**French:**
+- `oeuvres.js` — 3 works, each with `personnages[]`, `themes[]`, `citations[]`, `chapitres[]`
+- `lessons.js` — 5 grammar/writing lessons
+- `quizzes.js` — 6 quizzes (119 questions). Exports `generateRandomQuiz()` (15 shuffled)
+- `vocabulaire.js` — 7 categories (81 expressions), each `{mot, traduction, usage, exemple}`
+- `flashcards.js` — Dynamic: `generateFlashcards()` from oeuvres + lessons + vocabulaire
+
+**Ijtimaaiyat:**
+- `ijtimaaiyat.js` — `tarikh` (8 lessons) + `joghrafia` (6 lessons)
+- `ijtimaaiyatQuizzes.js` — 2 quizzes (53 questions)
+- `mafahim.js` — `mafahim` (33 concept terms) + `tawariikh` (39 key dates)
+
+**Islamiyat:**
+- `islamiyat.js` — 15 lessons across 6 categories (مداخل + سورة يوسف)
+- `islamiyatQuizzes.js` — 1 quiz (63 questions)
+- `islamiyatMafahim.js` — 5 categories (57 terms). Uses official الإطار المرجعي definitions
+
+**Arabic:**
+- `arabic.js` — 16 lessons (نحو/صرف + بلاغة + تعبير/إنشاء + نصوص)
+- `arabicQuizzes.js` — 2 quizzes (72 questions)
+- `arabicMafahim.js` — 4 categories (51 terms)
+
+**Cross-subject:**
+- `examQuestionGenerator.js` — Imports from all data files. Exports `generateExam(subjectId, config)` which produces QCM questions (from quiz data) and open-ended questions (from mafahim/lessons data)
 
 ### Dark Mode (src/hooks/useDarkMode.js)
 
-Class-based dark mode using Tailwind's `@custom-variant dark` in index.css. Persisted to localStorage (`fahm-dark-mode`), falls back to `prefers-color-scheme`. Toggles `.dark` on `<html>`. The hook is used independently by FrancaisLayout and IjtimaaiyatNavbar — they stay in sync via localStorage since only one layout renders at a time.
+Class-based dark mode via Tailwind's `@custom-variant dark` in index.css. Persisted to localStorage (`fahm-dark-mode`), falls back to `prefers-color-scheme`. Toggles `.dark` on `<html>`. Multiple components use the hook independently — they stay in sync via localStorage since only one layout renders at a time.
 
 ### Tailwind v4 Setup
 
@@ -83,13 +92,14 @@ No `tailwind.config.js` — configured via `@tailwindcss/vite` plugin in vite.co
 - Cards/surfaces: `rounded-xl border` with hover on border color
 - Primary buttons: `bg-gray-900 dark:bg-gray-100` (inverted in dark mode)
 - All theme transitions use `transition-colors`
-- Emoji characters as visual icons for oeuvres and lessons
-- RTL content uses `dir="rtl"` on layout div + `text-right` on text elements
+- Emoji characters as visual icons for lessons and oeuvres
+- RTL content uses `dir="rtl"` on layout div
 - Footer always uses `dir="ltr"` regardless of parent layout
 
 ## Key Patterns
 
-- **Adding a new subject**: Create a new Layout component (like IjtimaaiyatLayout), data files, page components, and nest routes under a new path in App.jsx. Add a card to Landing.jsx.
-- **Adding content**: Data files are the single source of truth. Listing pages use `.map()` over the arrays — new entries appear automatically.
-- **French quiz vs Ijtimaaiyat quiz**: Separate data files (`quizzes.js` vs `ijtimaaiyatQuizzes.js`) and separate player components (QuizPlay.jsx vs IjtimaaiyatQuizPlay.jsx) because the UI language differs.
-- **Links within French pages** must use `/francais/` prefix. Links within Ijtimaaiyat pages use `/ijtimaaiyat/` prefix.
+- **Adding a new subject**: Create Layout + Navbar components, data files (lessons, quizzes, mafahim), page components (Home, Detail, Quizzes, QuizPlay, Mafahim), nest routes in App.jsx, add card to Landing.jsx, add to `examQuestionGenerator.js`.
+- **Adding content**: Data files are the single source of truth. Listing pages `.map()` over arrays — new entries auto-appear. Exam Mode also picks up new content automatically.
+- **Per-subject quiz players**: Each subject has its own QuizPlay component because UI language differs. They share identical state management logic (could be refactored into a shared hook).
+- **Link prefixes**: French pages use `/francais/` prefix. Each Arabic subject uses its own prefix (`/ijtimaaiyat/`, `/islamiyat/`, `/arabic/`). Standalone pages (`/exam`) link to `/` for home.
+- **Islamiyat مصطلحات**: Must match the official الإطار المرجعي definitions. The reference PDF is at `1bac/مصطلحات الأولى باك حسب الإطار المرجعي.pdf`.
